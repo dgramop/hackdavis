@@ -16,7 +16,7 @@ fn main() {
 
     let mut active_gamepad = None;
 
-    let mut sp = serialport::new("/dev/tty.usbserial-B0004H6P", 57600).open_native().expect("Serial Port");
+   let mut sp = serialport::new("/dev/tty.usbserial-B0004H6P", 57600).open_native().expect("Serial Port");
 
     let mut flaperon_trim: f32 = 0.0;
     let mut roll: f32 = 0.0;
@@ -29,8 +29,7 @@ fn main() {
             match event {
                 EventType::AxisChanged(Axis::LeftStickY, pos, _) => {
                     println!("Throttle is {pos}");
-                   // sp.write(&[12, 0, (1.0+(19.0*(pos+1.0)/2.0)) as u8]).expect("failed to write");
-                    sp.write(&[12, 0, 0]).expect("failed to write");
+                    sp.write(&[12, 0, (1.0+(19.0*(pos+1.0)/2.0)) as u8]).expect("failed to write");
                 },
                 EventType::AxisChanged(Axis::LeftStickX, pos, _) => {
                     println!("FlaperonRoll is {pos}");
