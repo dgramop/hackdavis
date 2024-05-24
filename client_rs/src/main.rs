@@ -27,9 +27,12 @@ fn main() {
           //  println!("{:?} New event from {}: {:?}", time, id, event);
             active_gamepad = Some(id);
             match event {
-                EventType::AxisChanged(Axis::LeftStickY, pos, _) => {
+                EventType::AxisChanged(Axis::LeftStickY, mut pos, _) => {
                     println!("Throttle is {pos}");
-                    sp.write(&[12, 0, (1.0+(19.0*(pos+1.0)/2.0)) as u8]).expect("failed to write");
+                    if pos < 0.0 {
+                        pos = 0.0;
+                    }
+                    sp.write(&[12, 0, (1.0+(19.0*(pos)/2.0)) as u8]).expect("failed to write");
                 },
                 EventType::AxisChanged(Axis::LeftStickX, pos, _) => {
                     println!("FlaperonRoll is {pos}");
